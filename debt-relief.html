@@ -55,10 +55,34 @@
     <!-- Favicon and touch icons  -->
     <link href="images/icon/favicon.png" rel="shortcut icon">
 
+    <!-- icon -->
+    <link rel="stylesheet" href="stylesheets/all.min.css">
+
     <!--[if lt IE 9]>
         <script src="javascript/html5shiv.js"></script>
         <script src="javascript/respond.min.js"></script>
     <![endif]-->
+
+    <!-- confirm contact form redirection -->
+    <script>
+        $(document).on('ready', function () {
+            $("form").submit(function (e) {
+                var url = "php/sendemail.php";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $("#debt-relief-form").serialize(),
+                    success: function (data) {
+                        $('#resp').html(data);
+                        if (data === 'Completed') {
+                            console.log('here');
+                            window.location.href = 'confirmation-contact.html';
+                        }
+                    },
+                });
+            });
+        });
+    </script>
 </head>
 
 <body class="header-sticky">
@@ -186,7 +210,7 @@
                                         </ul>
                                     </li> -->
                                     <!-- <li><a href="pip.html">PIP Program</a></li> -->
-                                    <li><a href="sloc.html">SLOC Funding</a></li>
+                                    <li><a href="sloc.html">Loan Programs</a></li>
                                     <li><a href="debt-relief.html">Debt Relief</a></li>
                                     <li><a href="contact.html">Contact</a>
                                         <ul class="submenu">
@@ -258,43 +282,39 @@
                         <div class="fund">
                             <h3>Easy Application- Apply Here.</h3>
                             <p>Fill out the form below to be contacted</p>
-                            <form action="" method="post">
+                            <form class="debt-relief-form" method="post" action="confirmation-contact.html" id="debt-relief-form">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="text" placeholder="First Name*" class="form-control" required>
-                                        <input type="text" placeholder="Last Name*" class="form-control" required>
-                                        <input type="tel" placeholder="Your Phone Number" class="form-control">
-                                        <input type="email" placeholder="Your E-Mail *" class="form-control" required>
-                                        <input type="text" placeholder="State" class="form-control">
+                                        <input type="text" name="first_name" id="first_name" placeholder="First Name*" class="form-control" required>
+                                        <input type="text" name="last_name" id="last_name" placeholder="Last Name*" class="form-control" required>
+                                        <input type="tel" name="phone" id="phone" placeholder="Your Phone Number" class="form-control">
+                                        <input type="email" name="email" id="email" placeholder="Your E-Mail *" class="form-control" required>
+                                        <input type="text" name="state" id="state" placeholder="State" class="form-control">
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" placeholder="Total Debt Amount?"
-                                            class="form-control">
-                                        <input type="text" placeholder="Business Owner?" class="form-control">
-                                        <input type="text" placeholder="Interested in building business credit?"
-                                            class="form-control">
+                                        <input type="text" name="total_debt" id="total_debt" placeholder="Total Debt Amount?" class="form-control">
+                                        <input type="text" name="business_owner" id="business_owner" placeholder="Business Owner?" class="form-control">
+                                        <input type="text" name="interested_in_credit" id="interested_in_credit" placeholder="Interested in building business credit?" class="form-control">
                                         <button type="submit" class="form-control">
                                             SUBMIT <i class="fas fa-chevron-right"></i>
                                         </button>
-
+                            
                                         <div class="form-check">
                                             <label class="form-check-label" for="contactOptions">
                                                 May we contact you via e-mail, phone, and/or SMS text?
                                             </label>
                                             <div class="check">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="contactYes"
-                                                        value="yes">
+                                                    <input class="form-check-input" type="checkbox" name="contact_permission[]" id="contactYes" value="yes">
                                                     <label class="form-check-label" for="contactYes">Yes</label>
                                                 </div>
                                                 <div class="form-check form-check-inline ms-3">
-                                                    <input class="form-check-input" type="checkbox" id="contactNo"
-                                                        value="no">
+                                                    <input class="form-check-input" type="checkbox" name="contact_permission[]" id="contactNo" value="no">
                                                     <label class="form-check-label" for="contactNo">No</label>
                                                 </div>
                                             </div>
                                         </div>
-
+                            
                                     </div>
                                 </div>
                             </form>
@@ -550,6 +570,7 @@
         <script type="text/javascript" src="javascript/smoothscroll.js"></script>
         <script type="text/javascript" src="javascript/jquery.bxslider.js"></script>
         <script type="text/javascript" src="javascript/main.js"></script>
+
     </div> <!-- /.boxed -->
 </body>
 
